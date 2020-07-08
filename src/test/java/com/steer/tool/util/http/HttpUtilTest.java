@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HttpTest {
-    private Logger log = LoggerFactory.getLogger(HttpTest.class);
+public class HttpUtilTest {
+    private Logger log = LoggerFactory.getLogger(HttpUtilTest.class);
     @Test
     public void testGet() throws Exception {
         HttpResult result = HttpUtil.doGet("https://www.baidu.com");
