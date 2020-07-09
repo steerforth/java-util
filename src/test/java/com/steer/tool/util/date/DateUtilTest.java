@@ -1,9 +1,12 @@
 package com.steer.tool.util.date;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -113,6 +116,39 @@ public class DateUtilTest {
         DateTimeFormatter.BASIC_ISO_DATE.format(zonedDateTime);
         // RFC_1123_DATE_TIME Wed, 25 Mar 2020 22:22:55 +0800
         DateTimeFormatter.RFC_1123_DATE_TIME.format(zonedDateTime);
+    }
+
+    /**
+     * 多线程共享Calendar对象
+     */
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    @Test
+    public void testThreadUnSafe(){
+        for (int i = 0; i < 100; i++) {
+            new Thread(()->{
+                String dateStr = dateFormat.format(new Date());
+                try {
+                    Date parse = dateFormat.parse(dateStr);
+                    String dateStr2 = dateFormat.format(parse);
+                    Assertions.assertEquals(dateStr,dateStr2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
+
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @Test
+    public void testThreadSafe(){
+        for (int i = 0; i < 1000; i++) {
+            new Thread(()->{
+                String dateStr = LocalDate.now().format(formatter);
+                LocalDate parse = LocalDate.parse(dateStr,formatter);
+                String dateStr2 = formatter.format(parse);
+                Assertions.assertEquals(dateStr,dateStr2);
+            }).start();
+        }
     }
 
 }
