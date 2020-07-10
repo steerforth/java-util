@@ -7,9 +7,33 @@ import java.util.Date;
 
 public class DateUtil {
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    public static final DateTimeFormatter M_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter MID_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter FULL_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * @param date yyyy-MM-dd
+     * @return
+     */
+    public static LocalDate localDateParse(String date){
+        return LocalDate.parse(date,DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
+    /**
+     * yyyy-MM-dd HH:mm
+     * @param date
+     * @return
+     */
+    public static LocalDateTime localDateTimeParse(String date){
+        return LocalDateTime.parse(date,MID_FORMATTER);
+    }
+
+    /**
+     * @param date yyyy-MM-dd HH:mm:ss
+     * @return
+     */
+    public static LocalDateTime localDateTimeParseFull(String date){
+        return LocalDateTime.parse(date,FULL_FORMATTER);
+    }
 
     public static LocalDate localDateParse(String date,String pattern){
         return LocalDate.parse(date,DateTimeFormatter.ofPattern(pattern));
