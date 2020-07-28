@@ -9,6 +9,7 @@ public class DateUtil {
 
     public static final DateTimeFormatter MID_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter FULL_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter ZONE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     /**
      * @param date yyyy-MM-dd
@@ -49,6 +50,37 @@ public class DateUtil {
 
     public static String localDateTimeFormat(LocalDateTime localDateTime, String pattern){
         return localDateTime.format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    /**
+     * 转为本地时区时间
+     * @param date
+     * @param pattern
+     * @return
+     */
+    public static LocalDateTime localDateTimeZoneParse(String date,String pattern){
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(date, DateTimeFormatter.ofPattern(pattern));
+        return zonedDateTime.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    /**
+     * 转为本地时区时间
+     * @param date eg.2020-07-28T14:33+04:00
+     * @return
+     */
+    public static LocalDateTime localDateTimeZoneParse(String date){
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(date, ZONE_FORMATTER);
+        return zonedDateTime.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    public static LocalDate localDateZoneParse(String date,String pattern){
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(date, DateTimeFormatter.ofPattern(pattern));
+        return zonedDateTime.withZoneSameInstant(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static LocalDate localDateZoneParse(String date){
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(date, ZONE_FORMATTER);
+        return zonedDateTime.withZoneSameInstant(ZoneId.systemDefault()).toLocalDate();
     }
 
     public static Date localDateToDate(LocalDate localDate){

@@ -119,6 +119,20 @@ public class DateUtilTest {
     }
 
     /**
+     * 时区转化本地时区时间
+     */
+    @Test
+    public void testTimeZone(){
+//        UTC\/GMT+03:00
+        String zoneTime = "2020-05-11T06:07:36+03:00";
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(zoneTime, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX"));
+        //本地时区时间
+        ZonedDateTime zonedDateTimeLocal = zonedDateTime.withZoneSameInstant(ZoneId.systemDefault());
+        LocalDateTime localDateTime = zonedDateTimeLocal.toLocalDateTime();
+        log.info("本地时区时间:{}",localDateTime);
+    }
+
+    /**
      * 多线程共享Calendar对象
      */
     static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
