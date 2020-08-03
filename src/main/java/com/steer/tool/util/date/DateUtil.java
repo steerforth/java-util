@@ -111,4 +111,22 @@ public class DateUtil {
         return localDate.with(TemporalAdjusters.firstDayOfMonth());
     }
 
+    /**
+     * 获取东8区时间戳（毫秒）
+     * @param dateTime
+     * @return
+     */
+    public static long getTimeStampMill(LocalDateTime dateTime){
+        return dateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+    }
+
+    /**
+     * 获取东8区时间戳（秒）
+     * @param dateTime
+     * @return
+     */
+    public static long getTimeStamp(LocalDateTime dateTime){
+        return dateTime.toEpochSecond(ZoneOffset.of("+8"));
+    }
+
 }
